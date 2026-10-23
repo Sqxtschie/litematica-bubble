@@ -80,7 +80,7 @@ Switch to any other layer mode (e.g. *All*) with `M + Page Up/Down` and Litemati
 ### Requirements
 | | Version |
 |---|---|
-| Minecraft | 26.3 |
+| Minecraft | 26.3 (1.21.11: see branch `mc1.21.11`) |
 | [Fabric Loader](https://fabricmc.net/use/) | 0.16.0 or newer |
 | [Fabric API](https://modrinth.com/mod/fabric-api) | any for 26.3 |
 | [Litematica](https://modrinth.com/mod/litematica) | 0.29.1 or newer |
@@ -127,7 +127,7 @@ You're not in Bubble mode. Switch with `M + Page Up/Down`.
 You're using version 1.0.1. Update to 1.0.2 or newer, which work with Fabric Loader 0.16.0+.
 
 **Does it work with older Minecraft versions?**
-Currently only 26.3 is supported.
+26.3 (branch `main`) and 1.21.11 (branch [`mc1.21.11`](https://github.com/Sqxtschie/litematica-bubble/tree/mc1.21.11)).
 
 **Can I change the height limit keys?**
 Not yet. They are fixed to Shift/Ctrl + Page Up/Down. If you need different keys, open an issue on GitHub.
