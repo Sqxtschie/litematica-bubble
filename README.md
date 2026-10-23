@@ -80,20 +80,20 @@ Switch to any other layer mode (e.g. *All*) with `M + Page Up/Down` and Litemati
 ### Requirements
 | | Version |
 |---|---|
-| Minecraft | 26.3 |
+| Minecraft | 1.21.11 |
 | [Fabric Loader](https://fabricmc.net/use/) | 0.16.0 or newer |
-| [Fabric API](https://modrinth.com/mod/fabric-api) | any for 26.3 |
-| [Litematica](https://modrinth.com/mod/litematica) | 0.29.1 or newer |
-| [MaLiLib](https://modrinth.com/mod/malilib) | 0.30.2 or newer |
+| [Fabric API](https://modrinth.com/mod/fabric-api) | any for 1.21.11 |
+| [Litematica](https://modrinth.com/mod/litematica) | 0.26.16 or newer |
+| [MaLiLib](https://modrinth.com/mod/malilib) | 0.27.20 or newer |
 
 ### With the Modrinth App (easiest)
-1. Open your Fabric 26.3 instance.
+1. Open your Fabric 1.21.11 instance.
 2. Click **Add content**, search for **Litematica Bubble** and click **Install**.
 3. Litematica, MaLiLib and Fabric API are installed automatically as dependencies.
 4. Start the game.
 
 ### Manually
-1. Install [Fabric Loader](https://fabricmc.net/use/) for Minecraft 26.3.
+1. Install [Fabric Loader](https://fabricmc.net/use/) for Minecraft 1.21.11.
 2. Download **Fabric API**, **MaLiLib**, **Litematica** and **Litematica Bubble** ([Releases](https://github.com/Sqxtschie/litematica-bubble/releases) or [Modrinth](https://modrinth.com/mod/litematica-bubble)).
 3. Put all four `.jar` files into your `.minecraft/mods` folder.
 4. Start Minecraft with the Fabric profile.
@@ -127,7 +127,7 @@ You're not in Bubble mode. Switch with `M + Page Up/Down`.
 You're using version 1.0.1. Update to 1.0.2 or newer, which work with Fabric Loader 0.16.0+.
 
 **Does it work with older Minecraft versions?**
-Currently only 26.3 is supported.
+26.3 (branch `main`) and 1.21.11 (branch `mc1.21.11`).
 
 **Can I change the height limit keys?**
 Not yet. They are fixed to Shift/Ctrl + Page Up/Down. If you need different keys, open an issue on GitHub.
@@ -136,7 +136,7 @@ Not yet. They are fixed to Shift/Ctrl + Page Up/Down. If you need different keys
 
 ## Building from source
 
-Requires Java 25.
+Requires Java 21.
 
 ```
 ./gradlew build

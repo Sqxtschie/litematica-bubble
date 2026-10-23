@@ -33,7 +33,7 @@
     "fabricloader": ">=0.16.0",
     "fabric-api": "*",
     "minecraft": "${minecraft_version}",
-    "litematica": ">=0.29.1",
-    "malilib": ">=0.30.2"
+    "litematica": ">=0.26.16",
+    "malilib": ">=0.27.20"
   }
 }

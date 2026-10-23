@@ -2,12 +2,11 @@ package de.julek.litematicabubble.mixin.client;
 
 import de.julek.litematicabubble.client.Bubble;
 import fi.dy.masa.malilib.util.StringUtils;
-import fi.dy.masa.malilib.util.position.IntBoundingBox;
-import fi.dy.masa.malilib.util.position.LayerRange;
+import fi.dy.masa.malilib.util.IntBoundingBox;
+import fi.dy.masa.malilib.util.LayerRange;
+import fi.dy.masa.malilib.util.SubChunkPos;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.SectionPos;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -29,7 +28,7 @@ public abstract class LayerRangeMixin {
         return Bubble.isActive((LayerRange) (Object) this);
     }
 
-    @Inject(method = "getMinLayerBoundary", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getLayerMin", at = @At("HEAD"), cancellable = true)
     private void litematicaBubble$min(CallbackInfoReturnable<Integer> cir) {
         if (litematicaBubble$active()) {
             int min = Bubble.center(this.axis.ordinal()) - Bubble.getRadius();
@@ -37,7 +36,7 @@ public abstract class LayerRangeMixin {
         }
     }
 
-    @Inject(method = "getMaxLayerBoundary", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getLayerMax", at = @At("HEAD"), cancellable = true)
     private void litematicaBubble$max(CallbackInfoReturnable<Integer> cir) {
         if (litematicaBubble$active()) {
             int max = Bubble.center(this.axis.ordinal()) + Bubble.getRadius();
@@ -64,8 +63,9 @@ public abstract class LayerRangeMixin {
     }
 
     // The "layerSetHere" hotkey and the "Set here" button in the render layer GUI
-    @Inject(method = "setSingleBoundaryToPosition(Lnet/minecraft/world/entity/Entity;)V", at = @At("HEAD"), cancellable = true)
-    private void litematicaBubble$freeze(Entity entity, CallbackInfo ci) {
+    // Hooks the int overload (only called by the Entity one): its descriptor has no Minecraft types to remap
+    @Inject(method = "setSingleBoundaryToPosition(I)V", at = @At("HEAD"), cancellable = true)
+    private void litematicaBubble$freeze(int pos, CallbackInfo ci) {
         if (litematicaBubble$active()) {
             Bubble.toggleFrozen();
             ci.cancel();
@@ -95,9 +95,12 @@ public abstract class LayerRangeMixin {
         }
     }
 
-    @Inject(method = "intersects(Lnet/minecraft/core/SectionPos;)Z", at = @At("HEAD"), cancellable = true)
-    private void litematicaBubble$intersectsSection(SectionPos pos, CallbackInfoReturnable<Boolean> cir) {
-        if (litematicaBubble$active()) cir.setReturnValue(Bubble.clamp(pos.minBlockX(), pos.minBlockY(), pos.minBlockZ(), pos.maxBlockX(), pos.maxBlockY(), pos.maxBlockZ()) != null);
+    @Inject(method = "intersects(Lfi/dy/masa/malilib/util/SubChunkPos;)Z", at = @At("HEAD"), cancellable = true)
+    private void litematicaBubble$intersectsSection(SubChunkPos pos, CallbackInfoReturnable<Boolean> cir) {
+        if (litematicaBubble$active()) {
+            int x = pos.getX() << 4, y = pos.getY() << 4, z = pos.getZ() << 4;
+            cir.setReturnValue(Bubble.clamp(x, y, z, x + 15, y + 15, z + 15) != null);
+        }
     }
 
     @Inject(method = "intersectsBox(IIIIII)Z", at = @At("HEAD"), cancellable = true)
@@ -105,7 +108,7 @@ public abstract class LayerRangeMixin {
         if (litematicaBubble$active()) cir.setReturnValue(Bubble.clamp(minX, minY, minZ, maxX, maxY, maxZ) != null);
     }
 
-    @Inject(method = "getClampedArea(IIIIII)Lfi/dy/masa/malilib/util/position/IntBoundingBox;", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getClampedArea(IIIIII)Lfi/dy/masa/malilib/util/IntBoundingBox;", at = @At("HEAD"), cancellable = true)
     private void litematicaBubble$clampedArea(int minX, int minY, int minZ, int maxX, int maxY, int maxZ, CallbackInfoReturnable<IntBoundingBox> cir) {
         if (litematicaBubble$active()) cir.setReturnValue(Bubble.clamp(minX, minY, minZ, maxX, maxY, maxZ));
     }

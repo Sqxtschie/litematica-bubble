@@ -2,7 +2,7 @@ package de.julek.litematicabubble.mixin.client;
 
 import de.julek.litematicabubble.client.Bubble;
 import fi.dy.masa.malilib.util.StringUtils;
-import fi.dy.masa.malilib.util.position.LayerRange;
+import fi.dy.masa.malilib.util.LayerRange;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
