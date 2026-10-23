@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "de.julek.litematicabubble.mixin.client",
+  "compatibilityLevel": "JAVA_25",
+  "client": [
+    "ChunkRendererSchematicVboMixin",
+    "LayerEditButtonTypeMixin",
+    "LayerModeMixin",
+    "LayerRangeMixin",
+    "StatusInfoRendererMixin",
+    "TextFieldListenerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

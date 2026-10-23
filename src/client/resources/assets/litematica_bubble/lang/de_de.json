@@ -1,0 +1,9 @@
+{
+  "litematica_bubble.layer_mode.bubble": "Bubble",
+  "litematica_bubble.message.radius": "Bubble-Radius: %s",
+  "litematica_bubble.hud.frozen": "(eingefroren)",
+  "litematica_bubble.message.frozen": "Bubble eingefroren",
+  "litematica_bubble.message.unfrozen": "Bubble folgt dir wieder",
+  "litematica_bubble.gui.button.freeze": "Einfrieren",
+  "litematica_bubble.gui.button.unfreeze": "Auftauen"
+}

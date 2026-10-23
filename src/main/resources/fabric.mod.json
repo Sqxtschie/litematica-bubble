@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "litematica_bubble",
+  "version": "${version}",
+  "name": "Litematica Bubble",
+  "description": "Adds a 'Bubble' render layer mode to Litematica: only the schematic within a sphere around the player is rendered.",
+  "authors": [
+    "Sqitschie"
+  ],
+  "contact": {},
+  "license": "LGPL-3.0-only",
+  "environment": "client",
+  "entrypoints": {
+    "fabric-datagen": [
+      "de.julek.litematicabubble.client.LitematicaBubbleDataGenerator"
+    ],
+    "client": [
+      "de.julek.litematicabubble.client.LitematicaBubbleClient"
+    ],
+    "main": [
+      "de.julek.litematicabubble.LitematicaBubble"
+    ]
+  },
+  "mixins": [
+    "litematica_bubble.mixins.json",
+    {
+      "config": "litematica_bubble.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}",
+    "litematica": ">=0.29.1",
+    "malilib": ">=0.30.2"
+  }
+}
