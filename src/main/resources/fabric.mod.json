@@ -9,6 +9,7 @@
   ],
   "contact": {},
   "license": "LGPL-3.0-only",
+  "icon": "assets/litematica_bubble/icon.png",
   "environment": "client",
   "entrypoints": {
     "fabric-datagen": [
