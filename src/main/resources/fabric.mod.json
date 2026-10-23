@@ -30,7 +30,7 @@
     }
   ],
   "depends": {
-    "fabricloader": ">=${loader_version}",
+    "fabricloader": ">=0.16.0",
     "fabric-api": "*",
     "minecraft": "${minecraft_version}",
     "litematica": ">=0.29.1",
