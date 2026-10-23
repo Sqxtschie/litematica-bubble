@@ -29,6 +29,8 @@ public final class Bubble {
     private static boolean frozen;
     // Read from chunk builder threads, written from the client thread
     private static volatile int cx, cy, cz;
+    // Optional world height limits, like All Below / All Above; MIN/MAX_VALUE = no limit
+    private static volatile int minY = Integer.MIN_VALUE, maxY = Integer.MAX_VALUE;
 
     private Bubble() {
     }
@@ -44,7 +46,7 @@ public final class Bubble {
     public static boolean contains(int x, int y, int z) {
         long dx = x - cx, dy = y - cy, dz = z - cz;
         double r = radius + 0.5;
-        return dx * dx + dy * dy + dz * dz <= r * r;
+        return y >= minY && y <= maxY && dx * dx + dy * dy + dz * dz <= r * r;
     }
 
     public static int center(int axisOrdinal) {
@@ -55,7 +57,7 @@ public final class Bubble {
     public static IntBoundingBox clamp(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
         int r = radius;
         minX = Math.max(minX, cx - r); maxX = Math.min(maxX, cx + r);
-        minY = Math.max(minY, cy - r); maxY = Math.min(maxY, cy + r);
+        minY = Math.max(minY, Math.max(cy - r, Bubble.minY)); maxY = Math.min(maxY, Math.min(cy + r, Bubble.maxY));
         minZ = Math.max(minZ, cz - r); maxZ = Math.min(maxZ, cz + r);
         return minX > maxX || minY > maxY || minZ > maxZ ? null : IntBoundingBox.createProper(minX, minY, minZ, maxX, maxY, maxZ);
     }
@@ -72,6 +74,39 @@ public final class Bubble {
     public static void changeRadius(int amount) {
         setRadius(radius + amount);
         InfoUtils.printActionbarMessage("litematica_bubble.message.radius", radius);
+    }
+
+    public static int getMinY() {
+        return minY;
+    }
+
+    public static int getMaxY() {
+        return maxY;
+    }
+
+    public static boolean hasHeightLimit() {
+        return minY != Integer.MIN_VALUE || maxY != Integer.MAX_VALUE;
+    }
+
+    /** Moves the upper or lower height limit; an unset limit starts at the bubble's center. */
+    public static void moveHeightLimit(boolean upper, int amount) {
+        if (upper) {
+            maxY = Math.max((maxY == Integer.MAX_VALUE ? cy : maxY) + amount, minY);
+            InfoUtils.printActionbarMessage("litematica_bubble.message.max_y", maxY);
+        } else {
+            minY = Math.min((minY == Integer.MIN_VALUE ? cy : minY) + amount, maxY);
+            InfoUtils.printActionbarMessage("litematica_bubble.message.min_y", minY);
+        }
+        markForRebuild(cx, cz, cx, cz, radius);
+        save();
+    }
+
+    public static void clearHeightLimits() {
+        minY = Integer.MIN_VALUE;
+        maxY = Integer.MAX_VALUE;
+        InfoUtils.printActionbarMessage("litematica_bubble.message.height_cleared");
+        markForRebuild(cx, cz, cx, cz, radius);
+        save();
     }
 
     public static boolean isFrozen() {
@@ -113,18 +148,24 @@ public final class Bubble {
     static void load() {
         try {
             if (Files.exists(CONFIG)) {
-                radius = Math.clamp(Integer.parseInt(Files.readString(CONFIG).trim()), MIN_RADIUS, MAX_RADIUS);
+                // "radius [minY maxY]"; older versions only stored the radius
+                String[] parts = Files.readString(CONFIG).trim().split(" +");
+                radius = Math.clamp(Integer.parseInt(parts[0]), MIN_RADIUS, MAX_RADIUS);
+                if (parts.length == 3) {
+                    minY = Integer.parseInt(parts[1]);
+                    maxY = Integer.parseInt(parts[2]);
+                }
             }
         } catch (Exception e) {
-            // Broken file: keep the default radius
+            // Broken file: keep the defaults
         }
     }
 
     private static void save() {
         try {
-            Files.writeString(CONFIG, String.valueOf(radius));
+            Files.writeString(CONFIG, radius + " " + minY + " " + maxY);
         } catch (Exception e) {
-            // Not critical, the radius just won't persist
+            // Not critical, the settings just won't persist
         }
     }
 }

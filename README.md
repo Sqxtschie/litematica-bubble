@@ -8,8 +8,9 @@ only the part of the schematic within a sphere around you is rendered, and the s
 - New layer mode **Bubble** next to All, Single Layer, All Above, ... (render layer menu or `M + Page Up/Down`)
 - **Page Up / Page Down** changes the radius (default 10, range 1–64); it can also be typed in the render layer menu
 - **Freeze**: the "Freeze" button in the render layer menu (or Litematica's `layerSetHere` hotkey) keeps the bubble in place so you can walk around it
+- **Height limits**, like All Below / All Above: `Shift + Page Up/Down` moves the upper limit, `Ctrl + Page Up/Down` the lower limit, `Shift + Ctrl + Page Up/Down` removes both
 - Easy Place, pick block and entity rendering respect the bubble
-- The radius is saved in `config/litematica_bubble.txt`
+- The radius and height limits are saved in `config/litematica_bubble.txt`
 
 ## Requirements
 

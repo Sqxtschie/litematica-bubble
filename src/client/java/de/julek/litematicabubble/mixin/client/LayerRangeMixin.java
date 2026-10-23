@@ -31,12 +31,18 @@ public abstract class LayerRangeMixin {
 
     @Inject(method = "getMinLayerBoundary", at = @At("HEAD"), cancellable = true)
     private void litematicaBubble$min(CallbackInfoReturnable<Integer> cir) {
-        if (litematicaBubble$active()) cir.setReturnValue(Bubble.center(this.axis.ordinal()) - Bubble.getRadius());
+        if (litematicaBubble$active()) {
+            int min = Bubble.center(this.axis.ordinal()) - Bubble.getRadius();
+            cir.setReturnValue(this.axis == Direction.Axis.Y ? Math.max(min, Bubble.getMinY()) : min);
+        }
     }
 
     @Inject(method = "getMaxLayerBoundary", at = @At("HEAD"), cancellable = true)
     private void litematicaBubble$max(CallbackInfoReturnable<Integer> cir) {
-        if (litematicaBubble$active()) cir.setReturnValue(Bubble.center(this.axis.ordinal()) + Bubble.getRadius());
+        if (litematicaBubble$active()) {
+            int max = Bubble.center(this.axis.ordinal()) + Bubble.getRadius();
+            cir.setReturnValue(this.axis == Direction.Axis.Y ? Math.min(max, Bubble.getMaxY()) : max);
+        }
     }
 
     @Inject(method = "getCurrentLayerValue", at = @At("HEAD"), cancellable = true)
@@ -48,7 +54,12 @@ public abstract class LayerRangeMixin {
     private void litematicaBubble$string(CallbackInfoReturnable<String> cir) {
         if (litematicaBubble$active()) {
             String frozen = Bubble.isFrozen() ? " " + StringUtils.translate("litematica_bubble.hud.frozen") : "";
-            cir.setReturnValue(Bubble.getRadius() + frozen);
+            String height = "";
+            if (Bubble.hasHeightLimit()) {
+                int min = Bubble.getMinY(), max = Bubble.getMaxY();
+                height = ", Y " + (min == Integer.MIN_VALUE ? "-" : min) + ".." + (max == Integer.MAX_VALUE ? "-" : max);
+            }
+            cir.setReturnValue(Bubble.getRadius() + height + frozen);
         }
     }
 
@@ -108,7 +119,12 @@ public abstract class LayerRangeMixin {
     private void litematicaBubble$clampedValue(int value, Direction.Axis axis, CallbackInfoReturnable<Integer> cir) {
         if (litematicaBubble$active()) {
             int c = Bubble.center(axis.ordinal()), r = Bubble.getRadius();
-            cir.setReturnValue(Math.clamp(value, c - r, c + r));
+            int min = c - r, max = c + r;
+            if (axis == Direction.Axis.Y) {
+                min = Math.max(min, Bubble.getMinY());
+                max = Math.max(Math.min(max, Bubble.getMaxY()), min);
+            }
+            cir.setReturnValue(Math.clamp(value, min, max));
         }
     }
 

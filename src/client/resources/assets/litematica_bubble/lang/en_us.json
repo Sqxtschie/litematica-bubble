@@ -5,5 +5,8 @@
   "litematica_bubble.message.frozen": "Bubble frozen",
   "litematica_bubble.message.unfrozen": "Bubble follows you again",
   "litematica_bubble.gui.button.freeze": "Freeze",
-  "litematica_bubble.gui.button.unfreeze": "Unfreeze"
+  "litematica_bubble.gui.button.unfreeze": "Unfreeze",
+  "litematica_bubble.message.max_y": "Bubble upper limit: Y %s",
+  "litematica_bubble.message.min_y": "Bubble lower limit: Y %s",
+  "litematica_bubble.message.height_cleared": "Bubble height limits removed"
 }

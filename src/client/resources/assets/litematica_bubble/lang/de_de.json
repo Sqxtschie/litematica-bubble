@@ -5,5 +5,8 @@
   "litematica_bubble.message.frozen": "Bubble eingefroren",
   "litematica_bubble.message.unfrozen": "Bubble folgt dir wieder",
   "litematica_bubble.gui.button.freeze": "Einfrieren",
-  "litematica_bubble.gui.button.unfreeze": "Auftauen"
+  "litematica_bubble.gui.button.unfreeze": "Auftauen",
+  "litematica_bubble.message.max_y": "Bubble-Obergrenze: Y %s",
+  "litematica_bubble.message.min_y": "Bubble-Untergrenze: Y %s",
+  "litematica_bubble.message.height_cleared": "Bubble-Höhengrenzen entfernt"
 }
