@@ -8,5 +8,9 @@
   "litematica_bubble.gui.button.unfreeze": "Unfreeze",
   "litematica_bubble.message.max_y": "Bubble upper limit: Y %s",
   "litematica_bubble.message.min_y": "Bubble lower limit: Y %s",
-  "litematica_bubble.message.height_cleared": "Bubble height limits removed"
+  "litematica_bubble.message.height_cleared": "Bubble height limits removed",
+  "litematica_bubble.message.block_size": "Block size: %s %%",
+  "litematica_bubble.message.small_blocks_off": "Smaller blocks off",
+  "litematica_bubble.gui.button.small_blocks_on": "Smaller Blocks: %s %%",
+  "litematica_bubble.gui.button.small_blocks_off": "Smaller Blocks: OFF"
 }

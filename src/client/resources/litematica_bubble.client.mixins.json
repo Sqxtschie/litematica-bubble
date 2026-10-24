@@ -4,7 +4,9 @@
   "package": "de.julek.litematicabubble.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "BlockModelRendererSchematicMixin",
     "ChunkRendererSchematicVboMixin",
+    "LayerEditButtonListenerMixin",
     "LayerEditButtonTypeMixin",
     "LayerModeMixin",
     "LayerRangeMixin",

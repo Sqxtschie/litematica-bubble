@@ -17,6 +17,7 @@ This is useful for big builds where the full schematic gets in the way: you see 
 - 📏 **Adjustable radius**: from 1 to 64 blocks (default 10), with Page Up / Page Down or typed into the render layer menu
 - ❄️ **Freeze**: pin the bubble in place and walk around it to look at it from outside
 - ↕️ **Height limits**: cut off the bubble above and/or below a Y level, like *All Below* / *All Above*, so you can work floor by floor
+- 🔍 **Smaller Blocks**: render the schematic blocks smaller (10 to 90 %, default 60 %), so you can see what's behind them
 - 🧱 **Clean edges**: block faces on the surface of the bubble and at the height cuts are rendered, just like at a normal Litematica layer cut
 - 🖐️ **Works with Litematica's tools**: Easy Place, pick block and schematic entity rendering only see what's inside the bubble
 - 📊 **HUD info**: the Litematica info HUD shows the radius, height limits and frozen state, e.g. `Layer Mode: Bubble - r = 10, Y 60..80 (frozen)`
@@ -54,7 +55,10 @@ Building a multi-story house? Use height limits to hide everything above or belo
 
 When a limit isn't set yet, it starts at your eye level, so pressing `Shift + Page Down` once puts the upper limit at your feet. The limits are absolute Y levels: they stay where they are while the bubble moves with you. The current value is shown in the action bar and in the HUD.
 
-### 5. Back to normal
+### 5. Smaller blocks (optional)
+In the render layer menu, click **Smaller Blocks: OFF** (the button that is normally the axis button). The schematic blocks inside the bubble are now drawn smaller, so you can see the real world and the blocks behind them through the gaps. Click it again to switch back. **`Alt + Page Up/Down`** changes the size in 10 % steps (10 to 90 %); the button shows the current size. The settings are saved.
+
+### 6. Back to normal
 Switch to any other layer mode (e.g. *All*) with `M + Page Up/Down` and Litematica behaves exactly as before.
 
 ---
@@ -70,6 +74,8 @@ Switch to any other layer mode (e.g. *All*) with `M + Page Up/Down` and Litemati
 | `Shift + Ctrl + Page Up/Down` | Remove both height limits |
 | `layerSetHere` hotkey (unbound by default) | Freeze / unfreeze |
 | Render layer menu → **Freeze** | Freeze / unfreeze |
+| Render layer menu → **Smaller Blocks** | Smaller blocks on / off |
+| `Alt + Page Up` / `Alt + Page Down` | Block size +10 % / −10 % (switches Smaller Blocks on) |
 
 `Page Up` / `Page Down` are Litematica's `layerNext` / `layerPrevious` hotkeys, so if you rebound those, use your keys instead. The height limit combos only work in Bubble mode and don't interfere with anything outside of it.
 
