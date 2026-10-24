@@ -8,5 +8,9 @@
   "litematica_bubble.gui.button.unfreeze": "Auftauen",
   "litematica_bubble.message.max_y": "Bubble-Obergrenze: Y %s",
   "litematica_bubble.message.min_y": "Bubble-Untergrenze: Y %s",
-  "litematica_bubble.message.height_cleared": "Bubble-Höhengrenzen entfernt"
+  "litematica_bubble.message.height_cleared": "Bubble-Höhengrenzen entfernt",
+  "litematica_bubble.message.block_size": "Blockgröße: %s %%",
+  "litematica_bubble.message.small_blocks_off": "Kleinere Blöcke aus",
+  "litematica_bubble.gui.button.small_blocks_on": "Kleinere Blöcke: %s %%",
+  "litematica_bubble.gui.button.small_blocks_off": "Kleinere Blöcke: AUS"
 }

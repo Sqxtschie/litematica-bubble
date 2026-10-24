@@ -20,6 +20,9 @@ import java.nio.file.Path;
 public final class Bubble {
     public static final int MIN_RADIUS = 1;
     public static final int MAX_RADIUS = 64;
+    /** Block size in percent with "Smaller Blocks" on. */
+    public static final int MIN_BLOCK_SIZE = 10;
+    public static final int MAX_BLOCK_SIZE = 90;
     private static final Path CONFIG = FabricLoader.getInstance().getConfigDir().resolve("litematica_bubble.txt");
 
     /** Set by LayerModeMixin while LayerMode initializes. */
@@ -27,6 +30,9 @@ public final class Bubble {
 
     private static volatile int radius = 10;
     private static boolean frozen;
+    // Read from chunk builder threads
+    private static volatile boolean smallBlocks;
+    private static volatile int blockSize = 60;
     // Read from chunk builder threads, written from the client thread
     private static volatile int cx, cy, cz;
     // Optional world height limits, like All Below / All Above; MIN/MAX_VALUE = no limit
@@ -118,6 +124,39 @@ public final class Bubble {
         InfoUtils.printActionbarMessage(frozen ? "litematica_bubble.message.frozen" : "litematica_bubble.message.unfrozen");
     }
 
+    public static boolean isSmallBlocks() {
+        return smallBlocks;
+    }
+
+    public static void toggleSmallBlocks() {
+        smallBlocks = !smallBlocks;
+        if (smallBlocks) {
+            InfoUtils.printActionbarMessage("litematica_bubble.message.block_size", blockSize);
+        } else {
+            InfoUtils.printActionbarMessage("litematica_bubble.message.small_blocks_off");
+        }
+        markForRebuild(cx, cz, cx, cz, radius);
+        save();
+    }
+
+    /** Smaller Blocks is on and the Bubble mode is active. */
+    public static boolean isSmallBlocksActive() {
+        return smallBlocks && isActive(DataManager.getRenderLayerRange());
+    }
+
+    public static int getBlockSize() {
+        return blockSize;
+    }
+
+    /** Changes the block size; also switches Smaller Blocks on, since that's the only way to see the change. */
+    public static void changeBlockSize(int amount) {
+        blockSize = Math.clamp(blockSize + amount, MIN_BLOCK_SIZE, MAX_BLOCK_SIZE);
+        smallBlocks = true;
+        InfoUtils.printActionbarMessage("litematica_bubble.message.block_size", blockSize);
+        markForRebuild(cx, cz, cx, cz, radius);
+        save();
+    }
+
     /** Called every client tick: moves the bubble with the camera entity unless it's frozen. */
     static void tick() {
         Entity entity = EntityUtils.getCameraEntity();
@@ -148,12 +187,18 @@ public final class Bubble {
     static void load() {
         try {
             if (Files.exists(CONFIG)) {
-                // "radius [minY maxY]"; older versions only stored the radius
+                // "radius [minY maxY [smallBlocks [blockSize]]]"; older versions stored less
                 String[] parts = Files.readString(CONFIG).trim().split(" +");
                 radius = Math.clamp(Integer.parseInt(parts[0]), MIN_RADIUS, MAX_RADIUS);
-                if (parts.length == 3) {
+                if (parts.length >= 3) {
                     minY = Integer.parseInt(parts[1]);
                     maxY = Integer.parseInt(parts[2]);
+                }
+                if (parts.length >= 4) {
+                    smallBlocks = Boolean.parseBoolean(parts[3]);
+                }
+                if (parts.length >= 5) {
+                    blockSize = Math.clamp(Integer.parseInt(parts[4]), MIN_BLOCK_SIZE, MAX_BLOCK_SIZE);
                 }
             }
         } catch (Exception e) {
@@ -163,7 +208,7 @@ public final class Bubble {
 
     private static void save() {
         try {
-            Files.writeString(CONFIG, radius + " " + minY + " " + maxY);
+            Files.writeString(CONFIG, radius + " " + minY + " " + maxY + " " + smallBlocks + " " + blockSize);
         } catch (Exception e) {
             // Not critical, the settings just won't persist
         }
